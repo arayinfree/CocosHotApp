@@ -51,10 +51,10 @@ cc.Class({
         this.addInfo('click check');
 
         // let url = 'http://192.168.0.154/hotApp/'
-        let url = this.serverUrlEditBox.string;
+        let url = this.serverUrlEditBox.string;  //可修改的远程目录
         let ver = null;
         if (this.serverVerEditBox.string && this.serverVerEditBox.string != ''){
-            ver = this.serverVerEditBox.string
+            ver = this.serverVerEditBox.string  //可修改的快速检查 版本号.
         }
         HotUpdateManager.fastCheck(url,ver,function(type){
             if (type){
@@ -80,7 +80,7 @@ cc.Class({
                 }
             }
         },function(progress,str){
-            self.addInfo('udpate ing ' + str);
+            self.addInfo('udpate progress ' + str);
         });
     },
 

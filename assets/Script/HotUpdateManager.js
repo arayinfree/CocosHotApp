@@ -344,6 +344,15 @@ let HotUpdateManager =  cc.Class({
     
     _init(){
         let self = this;
+
+        // 初始化 version
+        let _localVersion = cc.sys.localStorage.getItem(k_STORE_LAST_VERSION);
+        if (_localVersion){
+            this._localVersion = _localVersion;
+        }else{
+            this._loadLocalManifest();            
+        }
+
         if(!cc.sys.isNative || cc.sys.isBrowser){
             return;
         }
@@ -377,18 +386,15 @@ let HotUpdateManager =  cc.Class({
         self._fileProgress = 0;
         self._byteProgress = 0;
 
-        // 初始化 version
-        let _localVersion = cc.sys.localStorage.getItem(k_STORE_LAST_VERSION);
-        if (_localVersion){
-            this._localVersion = _localVersion;
-        }else{
-            this._loadLocalManifest();            
-        }
+      
         
     },
 
     _loadLocalManifest(){
-        if (cc.isBrowser){
+        if (cc.sys.isBrowser){
+            cc.loader.loadRes(this.manifestUrl, function (err, str) {
+                cc.log(str);
+            });
             return;
         }
         if(this._am.getState() === jsb.AssetsManager.State.UNINITED){
