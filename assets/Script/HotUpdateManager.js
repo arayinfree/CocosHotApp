@@ -193,6 +193,8 @@ let HotUpdateManager =  cc.Class({
 
 
     _doCheckVersion(){
+        this.log('local -' + this._localVersion)
+        this.log('remot -' + this._remoteVersion)
         let ret = this.versionCompareHandle(this._localVersion,this._remoteVersion);
         if (ret<0){
             this.checkFinish(true);
@@ -346,12 +348,6 @@ let HotUpdateManager =  cc.Class({
         let self = this;
 
         // 初始化 version
-        let _localVersion = cc.sys.localStorage.getItem(k_STORE_LAST_VERSION);
-        if (_localVersion){
-            this._localVersion = _localVersion;
-        }else{
-            this._loadLocalManifest();            
-        }
 
         if(!cc.sys.isNative || cc.sys.isBrowser){
             return;
@@ -386,7 +382,13 @@ let HotUpdateManager =  cc.Class({
         self._fileProgress = 0;
         self._byteProgress = 0;
 
-      
+        let _localVersion = cc.sys.localStorage.getItem(k_STORE_LAST_VERSION);
+        if (_localVersion){
+            this._localVersion = _localVersion;
+        }
+        self.log('[HotUpdate] lastVersion =' + this._localVersion);
+        this._loadLocalManifest();
+        self.log('[HotUpdate] localVersion =' + this._localVersion);
         
     },
 
@@ -420,6 +422,7 @@ let HotUpdateManager =  cc.Class({
             this._gameProjectPath = this._am.getLocalManifest().getManifestFileUrl()
         }
         this._localVersion = _localVersion;
+        this.log('local version =>' + _localVersion);
     },
 
     loadServerVerManifest(){
@@ -442,6 +445,7 @@ let HotUpdateManager =  cc.Class({
     },
 
     compareServerVer(){
+        this.log('[热更新] compareServerVer ...');
         if(this._updating){
             this.log('[热更新] Checking or updating ...');
             return;

@@ -35,10 +35,10 @@ cc.Class({
 
         this.checkBtn.on('click',this.checkBtnPress,this);
         this.udpateBtn.on('click',this.updateBtnPress,this);
-
+        
         HotUpdateManager.init(this.manifestUrl)
 
-        this.label.string = HotUpdateManager.jsVersion || '1.0.0';
+        this.label.string = "origin + " + HotUpdateManager.jsVersion || '1.0.0';
     },
 
     // called every frame
